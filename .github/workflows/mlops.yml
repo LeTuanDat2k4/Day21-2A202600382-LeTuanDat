@@ -62,7 +62,9 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa-key.json" >> $GITHUB_ENV
 
       - name: Pull data with DVC
-        run: dvc pull data/train_phase1.csv.dvc data/eval.csv.dvc
+        run: |
+          dvc remote modify myremote credentialpath /tmp/sa-key.json
+          dvc pull data/train_phase1.csv.dvc data/eval.csv.dvc
 
       - name: Train model
         run: python src/train.py
